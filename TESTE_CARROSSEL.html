@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste do Carrossel Slick</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Slick Carousel CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
+    <style>
+        .test-slide {
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            margin: 10px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .test-carousel {
+            margin: 50px 0;
+        }
+        
+        .test-carousel .slick-prev,
+        .test-carousel .slick-next {
+            width: 50px;
+            height: 50px;
+            background: #007bff;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        
+        .test-carousel .slick-prev {
+            left: -60px;
+        }
+        
+        .test-carousel .slick-next {
+            right: -60px;
+        }
+        
+        .test-carousel .slick-prev:before,
+        .test-carousel .slick-next:before {
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .test-carousel .slick-dots {
+            bottom: -40px;
+        }
+        
+        .test-carousel .slick-dots li button:before {
+            font-size: 12px;
+            color: #007bff;
+        }
+        
+        .test-carousel .slick-dots li.slick-active button:before {
+            color: #0056b3;
+        }
+        
+        .status {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Teste do Carrossel Slick</h1>
+        
+        <div id="status" class="status info">
+            Verificando carregamento das bibliotecas...
+        </div>
+        
+        <div class="test-carousel">
+            <div class="test-slide">Slide 1</div>
+            <div class="test-slide">Slide 2</div>
+            <div class="test-slide">Slide 3</div>
+            <div class="test-slide">Slide 4</div>
+            <div class="test-slide">Slide 5</div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <h3>Instruções de Teste:</h3>
+            <ul class="list-unstyled">
+                <li>✓ Verifique se os slides estão sendo exibidos</li>
+                <li>✓ Teste as setas de navegação (esquerda/direita)</li>
+                <li>✓ Teste os indicadores (dots) na parte inferior</li>
+                <li>✓ Verifique se o autoplay está funcionando</li>
+                <li>✓ Teste a responsividade redimensionando a janela</li>
+            </ul>
+        </div>
+        
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" onclick="testCarousel()">Testar Carrossel</button>
+            <button class="btn btn-secondary" onclick="checkLibraries()">Verificar Bibliotecas</button>
+        </div>
+        
+        <div id="console" class="mt-4 p-3 bg-dark text-light rounded" style="font-family: monospace; font-size: 12px;">
+            <strong>Console de Debug:</strong><br>
+            <div id="console-content"></div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Slick Carousel JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
+    <script>
+        function log(message) {
+            const consoleContent = document.getElementById('console-content');
+            const timestamp = new Date().toLocaleTimeString();
+            consoleContent.innerHTML += `[${timestamp}] ${message}<br>`;
+            consoleContent.scrollTop = consoleContent.scrollHeight;
+        }
+        
+        function checkLibraries() {
+            const status = document.getElementById('status');
+            
+            if (typeof $ !== 'undefined') {
+                log('✓ jQuery carregado: ' + $.fn.jquery);
+            } else {
+                log('✗ jQuery não está disponível');
+            }
+            
+            if (typeof $ !== 'undefined' && $.fn.slick) {
+                log('✓ Slick Carousel carregado');
+                status.className = 'status success';
+                status.textContent = 'Todas as bibliotecas estão carregadas!';
+            } else {
+                log('✗ Slick Carousel não está disponível');
+                status.className = 'status error';
+                status.textContent = 'Erro: Slick Carousel não foi carregado!';
+            }
+        }
+        
+        function testCarousel() {
+            if (typeof $ !== 'undefined' && $.fn.slick) {
+                try {
+                    $('.test-carousel').slick({
+                        dots: true,
+                        infinite: true,
+                        speed: 500,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 3000,
+                        pauseOnHover: true,
+                        responsive: [
+                            {
+                                breakpoint: 768,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 1
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1,
+                                    dots: true,
+                                    arrows: false
+                                }
+                            }
+                        ]
+                    });
+                    log('✓ Carrossel inicializado com sucesso!');
+                    document.getElementById('status').className = 'status success';
+                    document.getElementById('status').textContent = 'Carrossel funcionando perfeitamente!';
+                } catch (error) {
+                    log('✗ Erro ao inicializar carrossel: ' + error.message);
+                    document.getElementById('status').className = 'status error';
+                    document.getElementById('status').textContent = 'Erro ao inicializar o carrossel!';
+                }
+            } else {
+                log('✗ jQuery ou Slick não estão disponíveis');
+                document.getElementById('status').className = 'status error';
+                document.getElementById('status').textContent = 'Bibliotecas não disponíveis!';
+            }
+        }
+        
+        // Verificar bibliotecas quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Página carregada, verificando bibliotecas...');
+            setTimeout(checkLibraries, 500);
+        });
+        
+        // Log de erros globais
+        window.addEventListener('error', function(e) {
+            log('✗ Erro JavaScript: ' + e.message);
+        });
+    </script>
+</body>
+</html>
+
